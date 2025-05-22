@@ -1,5 +1,630 @@
-<!DOCTYPE html>
-<html>
-<h1>Engineering School</h1>
-<body>Alliance school of engineering and design</body>
-</html>
+   
+ALLIANCE COLLEGE OF ENGINERING AND DESIGN 
+ 
+DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING 
+ 
+Compiler Design Lab Manual 
+CSL 605  
+ 	 
+VI	SEMESTER 
+     2020-2024 
+ 
+ 
+  
+ 
+ 
+Prepared by 
+ 
+Dr. Shekhar R. 
+Deputy Head of Department Computer Science & Engineering 
+               
+ 
+                                                                                                                                                  
+_________________                                                                ___________________ 
+Faculty Signature                                                    Head of Department 
+INDEX 
+ 
+ 
+ 
+S. No. 	Experiment Name 	Date 	Page No. 	Signature 
+1. 	Program to count the number of 
+vowels and consonants in a given  string. 	 	 	01 	 
+2. 	Program to count the number of 
+characters, words, spaces, end of lines in a given input file. 	 	02 	 
+3. 	Program to count no of: 
+a)	+ve and –ve integers 
+b)	+ve and –ve fractions 	 	03 	 
+4. 	Program to count the no of comment line in a given C program. Also eliminate them and copy that program into separate file 	 	04 	 
+5. 	Program to count the no of ‘scanf’ and 
+‘printf’ statements in a C program. Replace them with ‘readf’ and ‘writef’ statements respectively. 	 	05 	 
+6. 	Program to recognize a valid arithmetic expression and identify the identifiers and operators present. Print them separately. 	 	06 	 
+7. 	Program to recognize whether a given sentence is simple or compound. 	 	08 	 
+8. 	Program to recognize and count the 
+number of identifiers in a given input file. 	 	09 	 
+ 	 
+ 
+INDEX 
+ 
+S. No. 	Experiment Name 	Date 	Page No. 	Signature 
+9. 	Program to test the validity of a simple expression involving operators +, -, * and / 	 	10 	 
+10. 	Program to recognize nested IF control statements and display the levels of nesting. 	 	12 	 
+11. 	Program to check the syntax of a simple expression involving operators +, -, * and / 	 	14 	 
+12. 	Program to recognize a valid variable, which starts with a letter, followed by any number of letters or digits. 	 	16 	 
+13. 	Program to evaluate an arithmetic expression involving operating +, -, * and /. 	 	18 	 
+14. 	Program to recognize strings ‘aaab’, 
+‘abbb’, ‘ab’ and ‘a’ using grammar 
+(anbn, n>=0) 	 	20 	 
+15. 	Program to recognize the grammar (anb, n>=10) 	 	21 	 
+ 
+ 	 
+ 
+ 
+ 
+ 
+GUIDELINES TO STUDENTS 
+ 
+➢	Students are required to carry their observation / record with completed exercises while entering the lab.  
+➢	Students are supposed to occupy the machines allotted to them and are not supposed to talk or make noise in the lab. The allocation is put up on the lab notice board.  
+➢	Lab can be used in free time / lunch hours by the students who need to use the systems should take prior permission from the lab incharge.  
+➢	Lab records need to be submitted on or before date of submission.  
+➢	Students are not supposed to use pen drives.  
+ 
+ 
+ 
+Writing of the experiment in the Observation Book: 
+ 
+The students will write the experiment in the Record as per the following format:  
+ 
+a)	Name of the experiment/Aim.  
+b)	Summary of commands required for this experiment.  
+c)	Source Program.  
+d)	Results.  
+e)	Viva-Voce Questions and Answers.  
+f)	Errors observed (if any) during compilation/execution.  
+g)	Signature of the Faculty.  
+ 	 
+1
+ 
+ 
+        INTRODUCTION TO LEX  
+ 
+Lex is a UNIX utility. It is a program generator designed for lexical processing of character input streams. Lex generates C code for lexical analyzer. It uses the patterns that match strings in the input and converts the strings to tokens. Lex helps you by taking a set of descriptions of possible tokens and producing a C routine, which we call a lexical analyzer. The token descriptions that Lex uses are known as regular expressions. 
+ 
+o	Lex is a program that generates lexical analyzer. It is used with YACC parser generator. 
+o	The lexical analyzer is a program that transforms an input stream into a sequence of tokens. 
+o	It reads the input stream and produces the source code as output through implementing the lexical analyzer in the C program. 
+The function of Lex is as follows: 
+o	Firstly lexical analyzer creates a program lex.1 in the Lex language. Then Lex compiler runs the lex.1 program and produces a C program lex.yy.c. 
+o	Finally C compiler runs the lex.yy.c program and produces an object program a.out. 
+o	a.out is lexical analyzer that transforms an input stream into a sequence of tokens. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+Lex file format 
+A Lex program is separated into three sections by %% delimiters. The formal of Lex source is as follows: 
+1.	{ definitions }    
+2.	%%   
+3.	{ rules }    
+4.	%%    
+5.	{ user subroutines }   
+Definitions include declarations of constant, variable and regular definitions. 
+Rules define the statement of form p1 {action1} p2 {action2}....pn {action}. 
+Where pi describes the regular expression and action1 describes the actions what action the lexical analyzer should take when pattern pi matches a lexeme. 
+User subroutines are auxiliary procedures needed by the actions. The subroutine can be loaded with the lexical analyzer and compiled separately.
+1
+ 
+ 
+ 
+(LEX PROGRAMS) 
+ 
+ 
+1. Program to count the number of vowels and consonants in a given string. 
+ 
+%{ 
+#include<stdio.h> int vowels=0; int cons=0; 
+%} 
+%% 
+[aeiouAEIOU] {vowels++;} 
+[a-zA-Z] {cons++;} 
+%% 
+int yywrap() 
+{ return 1; 
+} main() 
+{ printf(“Enter the string.. at end press ^d\n”); yylex(); 
+printf(“No of vowels=%d\nNo of consonants=%d\n”,vowels,cons); 
+ 
+}
+2.	count the number of characters, words, spaces, end of lines in a given input file. 
+ 
+%{ 
+#include<stdio.h> 
+Int c=0, w=0, s=0, l=0; 
+%} 
+WORD [^ \t\n,\.:]+ 
+EOL [\n] 
+BLANK [ ] 
+%% 
+{WORD} {w++; c=c+yyleng;} 
+{BLANK} {s++;} 
+{EOL} {l++;} 
+. {c++;} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+main(int argc, char *argv[]) 
+{ 
+If(argc!=2) 
+{ printf(“Usage: <./a.out> <sourcefile>\n”); exit(0); 
+} 
+yyin=fopen(argv[1],”r”); 
+yylex(); 
+printf(“No of characters=%d\nNo of words=%d\nNo of spaces=%d\n No of lines=%d”,c,w,s,l); } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+	3.	count no of:
+a)	+ve and –ve integers 
+b)	+ve and –ve fractions 
+ 
+%{ 
+#include<stdio.h> 
+int posint=0, negint=0,posfraction=0, negfraction=0; 
+%} 
+%% 
+[-][0-9]+ {negint++;} 
+[+]?[0-9]+ {posint++;} 
+[+]?[0-9]*\.[0-9]+ {posfraction++;} 
+[-][0-9]* \.[0-9]+ {negfraction++;} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main(int argc, char *argv[]) 
+{ 
+If(argc!=2) 
+{ printf(“Usage: <./a.out> <sourcefile>\n”); exit(0); } 
+ 	yyin=fopen(argv[1],”r”); 
+ 	yylex(); 
+printf(“No of +ve integers=%d\n No of –ve integers=%d\n No of 
++ve  
+ 	fractions=%d\n No of –ve fractions=%d\n”, posint, negint, 
+ 	posfraction, negfraction); 
+} 
+4.	count the no of comment line in a given C program. Also eliminate them and copy that program into separate file 
+ 
+ 
+%{ 
+#include<stdio.h> 
+int com=0; 
+%} 
+%s COMMENT %% 
+“/*”[.]*”*/” {com++;} 
+“/*” {BEGIN COMMENT ;} 
+<COMMENT>”*/” {BEGIN 0; com++ ;} 
+<COMMENT>\n {com++ ;} <COMMENT>. {;} 
+.|\n {fprintf(yyout,”%s”,yytext); 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main(int argc, char *argv[]) 
+{ 
+If(argc!=2) 
+{ printf(“Usage: <./a.out> <sourcefile> <destn file>\n”); exit(0); 
+} yyin=fopen(argv[1],”r”); yyout=fopen(argv[2],”w”); 
+yylex(); 
+printf(“No of comment lines=%d\n”,com); } 
+ 
+5. Program to count the no of ‘scanf’ and ‘printf’ statements in a C program. Replace them with ‘readf’ and ‘writef’ statements respectively. 
+ 
+%{ 
+#include<stdio.h> int pc=0, sc=0; 
+%} 
+%% 
+“printf” { fprintf(yyout,”writef”); pc++;} 
+“scanf” { fprintf(yyout,”readf”); sc++;} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main(int argc, char *argv[]) 
+{ if(argc!=2) 
+{ printf(“Usage: <./a.out> <sourcefile> <destn file>\n”); exit(0); 
+} yyin=fopen(argv[1],”r”); yyout=fopen(argv[2],”w”); 
+yylex(); 
+printf(“No of printf statements = %d\n No of scanf statements=%d\n”, pc, sc); 
+}
+ 
+6. Program to recognize a valid arithmetic expression and identify the identifiers and operators present. Print them separately. 
+ 
+%{ 
+#include<stdio.h> #include<string.h> 
+int noprt=0, nopnd=0, valid=1, top=-1, m, l=0, j=0; char opnd[10][10], oprt[10][10], a[100]; 
+%} 
+%% 
+“(“ { top++; a[top]=’(‘ ; } 
+“{“ { top++; a[top]=’{‘ ; } 
+“[“ { top++; a[top]=’[‘ ; } 
+“)” { if(a[top]!=’(‘) 
+{ valid=0; return; 
+} else 
+top--; 
+} 
+“}” { if(a[top]!=’{‘) 
+{ valid=0; return; 
+} else 
+top--; 
+} 
+“]” { if(a[top]!=’[‘) 
+{ valid=0; return; 
+} else 
+top--; 
+} 
+“+”|”-“|”*”|”/” { 	noprt++; strcpy(oprt[l], yytext); l++; 
+} 
+[0-9]+|[a-zA-Z][a-zA-Z0-9_]* {nopnd++; 
+ 	strcpy(opnd[j],yytext); 
+ 	j++; 
+ 	} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main() 
+{ int k; 
+printf(“Enter the expression.. at end press ^d\n”); yylex(); 
+if(valid==1 && i==-1 && (nopnd-noprt)==1) 
+{ 
+ 	printf(“The expression is valid\n”); 
+ 	printf(“The operators are\n”);  	for(k=0;k<l;k++) 
+ 	Printf(“%s\n”,oprt[k]); 
+for(k=0;k<l;k++) 
+ 	Printf(“%s\n”,opnd[k]); 
+	} 	 
+else  
+ 	Printf(“The expression is invalid”); 
+} 
+ 
+7. Program to recognize whether a given sentence is simple or compound. 
+ 
+%{ 
+#include<stdio.h> 
+Int is_simple=1; 
+%} 
+%% 
+[ \t\n]+[aA][nN][dD][ \t\n]+ {is_simple=0;} 
+[ \t\n]+[oO][rR][ \t\n]+ {is_simple=0;} 
+[ \t\n]+[bB][uU][tT][ \t\n]+ {is_simple=0;} 
+. {;} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main() 
+{ int k; 
+printf(“Enter the sentence.. at end press ^d”); yylex(); if(is_simple==1) 
+{ 
+ 	Printf(“The given sentence is simple”); 
+}  else 	 
+{ 
+Printf(“The given sentence is compound”); 
+ 
+} 
+8. Program to recognize and count the number of identifiers in a given input file. 
+ 
+%{ 
+#include<stdio.h> int id=0; 
+%} 
+%% 
+[a-zA-Z][a-zA-Z0-9_]* { id++ ; ECHO; printf(“\n”);} 
+.+ { ;} 
+\n { ;} 
+%% 
+int yywrap() 
+{ return 1; 
+} 
+ 
+main (int argc, char *argv[]) 
+{ if(argc!=2) 
+{ printf(“Usage: <./a.out> <sourcefile>\n”); exit(0); 
+} yyin=fopen(argv[1],”r”); printf(“Valid identifires are\n”); yylex(); 
+printf(“No of identifiers = %d\n”,id); } 
+ 
+ YACC PROGRAMS 
+ 
+09. Program to test the validity of a simple expression involving operators +, -, * and / 
+Yacc Part 
+%token NUMBER ID NL 
+%left ‘+’ ‘-‘ 
+%left ‘*’ ‘/’ 
+%% 
+stmt : exp NL { printf(“Valid Expression”); exit(0);} 
+; 
+	exp : 	exp ‘+’ exp 
+| exp ‘-‘ exp 
+| exp ‘*’ exp 
+| exp ‘/’ exp 
+| ‘(‘ exp ‘)’ 
+| ID 
+| NUMBER 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid Expression\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the expression\n”); yyparse(); 
+} 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+[0-9]+ { return DIGIT; } 
+[a-zA-Z][a-zA-Z0-9_]* { return ID; } 
+\n { return NL ;} 
+. { return yytext[0]; } 
+%%  
+10. Program to recognize nested IF control statements and display the levels of nesting. 
+ 
+Yacc Part 
+ 
+%token IF RELOP S NUMBER ID 
+%{ 
+int count=0; 
+%} %% 
+stmt : if_stmt { printf(“No of nested if statements=%d\n”,count); exit(0);} 
+; 
+if_stmt : IF ‘(‘ cond ‘)’ if_stmt {count++;} 
+| S; 
+; 
+cond : x RELOP x 
+; 
+x : ID 
+| NUMBER 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid Expression\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the statement”); yyparse(); 
+} 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+“if” { return IF; } 
+[sS][0-9]* {return S;} 
+“<”|”>”|”==”|”!=”|”<=”|”>=” { return RELOP; } 
+[0-9]+ { return NUMBER; } 
+[a-zA-Z][a-zA-Z0-9_]* { return ID; } 
+\n { ; } 
+. { return yytext[0]; } 
+%% 
+ 
+  
+ 
+11. Program to check the syntax of a simple expression involving operators +, -, * and / 
+Yacc Part 
+%token NUMBER ID NL 
+%left ‘+’ ‘-‘ 
+%left ‘*’ ‘/’ 
+%% 
+stmt : exp NL { printf(“Valid Expression”); exit(0);} 
+; 
+	exp : 	exp ‘+’ exp 
+| exp ‘-‘ exp 
+| exp ‘*’ exp 
+| exp ‘/’ exp 
+| ‘(‘ exp ‘)’ 
+| ID 
+| NUMBER 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid Expression\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the expression\n”); yyparse(); 
+} 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+[0-9]+ { return NUMBER; } 
+[a-zA-Z][a-zA-Z0-9_]* { return ID; } 
+\n { return NL ;} 
+. { return yytext[0]; } 
+%%  
+ 
+12. Program to recognize a valid variable, which starts with a letter, followed by any number of letters or digits. 
+ 
+Yacc Part 
+ 
+%token DIGIT LETTER NL UND 
+%% 
+stmt : variable NL { printf(“Valid Identifiers\n”); exit(0);} 
+; 
+ 
+variable : LETTER alphanumeric 
+; 
+ 
+alphanumeric: LETTER alphanumeric 
+| DIGIT alphanumeric 
+| UND alphanumeric 
+| LETTER 
+| DIGIT 
+| UND 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid Expression\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the variable name\n”); yyparse(); 
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Lex Part 
+ 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+[a-zA-Z] { return LETTER ;} 
+[0-9] { return DIGIT ; } 
+[\n] { return NL ;} 
+[_] { return UND; } 
+. { return yytext[0]; } 
+%% 
+ 	- 17 - 
+ 
+ 
+13. Program to evaluate an arithmetic expression involving operating +, -, * and /. 
+Yacc Part 
+%token NUMBER ID NL 
+%left ‘+’ ‘-‘ 
+%left ‘*’ ‘/’ 
+%% 
+stmt : exp NL { printf(“Value = %d\n”,$1); exit(0);} 
+; 
+	exp : 	exp ‘+’ exp { $$=$1+$3; } 
+| exp ‘-‘ exp { $$=$1-$3; } 
+| exp ‘*’ exp { $$=$1*$3; } 
+| exp ‘/’ exp { if($3==0) 
+{ 
+ 	printf(“Cannot divide by 0”); 
+ 	exit(0); 
+} 	 else  
+ 	$$=$1/$3; 
+} 
+| ‘(‘ exp ‘)’ { $$=$2; } 
+| ID { $$=$1; } 
+| NUMBER { $$=$1; } 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid Expression\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the expression\n”); yyparse(); 
+} 
+ 
+ 
+Lex Part 
+ 
+%{ 
+#include “y.tab.h” extern int yylval; 
+%} 
+%% 
+[0-9]+ { yylval=atoi(yytext); return NUMBER; } 
+\n { return NL ;} 
+. { return yytext[0]; } 
+%%  
+14. Program to recognize strings ‘aaab’, ‘abbb’, ‘ab’ and ‘a’ using grammar (anbn, n>=0) 
+ 
+Yacc Part 
+ 
+%token A B NL 
+%% 
+stmt : s NL { printf(“Valid String\n”); exit(0) ;} 
+; 
+s : A s B 
+| 
+; 
+%% 
+int yyerror(char *msg) 
+{ printf(“Invalid String\n”); 
+exit(0); 
+} main () 
+{ printf(“Enter the String\n”); yyparse(); 
+} 
+ 
+ 
+ 
+Lex Part 
+ 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+[aA] { return A; } 
+[bB] { return B; } \n { return NL ;} 
+. { return yytext[0]; } 
+%% 
+15. Program to recognize the grammar (anb, n>=10) 
+ 
+%token A B NL 
+%% 
+stmt : A A A A A A A A A A s B NL 
+{ 
+Printf(“Valid”); exit(0); 
+} 
+; 
+s : s A 
+| 
+; 
+int yyerror(char *msg) 
+{ printf(“Invalid String\n”); 
+exit(0); } main () 
+{ printf(“Enter the String\n”); yyparse(); 
+} 
+ 
+ 
+Lex Part 
+ 
+%{ 
+#include “y.tab.h” 
+%} 
+%% 
+[aA] { return A; } 
+[bB] { return B; } \n { return NL ;} 
+. { return yytext[0]; } 
+%% 
+ 
+Steps to Execute Lex Program: 
+ 
+lex <pgm name> 
+cc lex.yy.c –ll 
+./a.out 
+ 
+Steps to execute YACC program: 
+yacc –d <yacc_pgm name> lex <lex_pgm_name> 
+cc y.tab.c lex.yy.c –ly –ll 
+./a.out 
